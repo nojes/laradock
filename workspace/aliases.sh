@@ -50,7 +50,7 @@ alias cla="clear && ls -l"
 alias cll="clear && ls -la"
 alias cls="clear && ls"
 alias code="cd /var/www"
-alias ea="vi ~/aliases"
+alias ea="nano ~/aliases"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
@@ -141,4 +141,21 @@ function fs() {
 	else
 		du $arg .[^.]* ./*;
 	fi;
+}
+
+# Creates remote bitbucket repository and adds it as git remote.
+function git-init-bitbucket {
+    echo 'Username?'
+    read username
+    username=${username:-nojes}
+    echo 'Password?'
+    read -s password  # -s flag hides password text
+    echo 'Repo name?'
+    read reponame
+
+    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
+    sleep 2
+    git remote add origin git@bitbucket.org:$username/$reponame.git
+    git push -u origin --all
+    git push -u origin --tags
 }
