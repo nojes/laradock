@@ -59,6 +59,8 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
+        - "8080-8085:8080-8085" # node.js
+        - "4200:4200" # angular
       tty: true
       networks:
         - frontend
