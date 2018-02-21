@@ -57,6 +57,25 @@ RUN groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock
 
 #####################################
+# Dot files:
+#####################################
+USER root
+
+ARG COPY_DOTFILES=false
+ENV COPY_DOTFILES ${COPY_DOTFILES}
+
+COPY ./dotfiles/* /dotfiles/root/
+COPY --chown=laradock ./dotfiles/* /dotfiles/laradock/
+
+RUN if [ ${COPY_DOTFILES} = true ]; then \
+    rm /dotfiles/*/.*.example && \
+    cp -rTav /dotfiles/root /root && \
+    cp -rTav /dotfiles/laradock /home/laradock \
+;fi
+
+RUN rm -r /dotfiles
+
+#####################################
 # SOAP:
 #####################################
 USER root

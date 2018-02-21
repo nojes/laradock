@@ -1,0 +1,7 @@
+[user]
+	email = you@example.com
+	name = Your Name
+[credential]
+    # Helper to temporarily store passwords in memory
+    # (this drops the cache time to 15 minutes)
+	helper = cache --timeout=900
